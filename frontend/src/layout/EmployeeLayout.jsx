@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet} from "react-router-dom";
 import { sidebarItems } from "../data/employeeSidebarData.js";
-import { Sidebar } from "../components/common/EmployeeSidebar.jsx";
+import { Sidebar } from "../components/common/EmployeeSideBar.jsx";
 import { Header } from "../components/common/EmployeeHeader.jsx";
 
 // Main layout
