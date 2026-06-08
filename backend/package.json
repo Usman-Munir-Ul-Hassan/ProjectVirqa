@@ -1,0 +1,37 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "This backend i make for the VIRQA Application which i responsible for the interviewer and employer request both are seperate frontend ",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon  src/index.js"
+  },
+  "keywords": [
+    "VIRQA",
+    "backend"
+  ],
+  "author": "Muhammad Ummar",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2"
+  },
+  "dependencies": {
+    "axios": "^1.16.1",
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.9.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.1.0",
+    "groq-sdk": "^1.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.23.0",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.3",
+    "pdf-parse": "^2.4.5",
+    "socket.io": "^4.8.3"
+  }
+}

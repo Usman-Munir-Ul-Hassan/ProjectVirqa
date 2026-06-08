@@ -1,0 +1,50 @@
+services:
+  # Backend API Service
+  - type: web
+    name: virqa-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: PORT
+        value: 8000
+      - key: DB_NAME
+        value: fyp
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_SECRET_EXPIRY
+        value: 6h
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: GOOGLE_APP_PASSWORD
+        sync: false
+      - key: GOOGLE_USER
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+
+  # Frontend Service
+  - type: web
+    name: virqa-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: free
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+      - key: VITE_SOCKET_URL
+        sync: false
+      - key: VITE_GROQ_API_KEY
+        sync: false
