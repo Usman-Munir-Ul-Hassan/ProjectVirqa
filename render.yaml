@@ -23,7 +23,7 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-      - key: GOOGLE_APP_PASSWORD
+      - key: RESEND_API_KEY
         sync: false
       - key: GOOGLE_USER
         sync: false
