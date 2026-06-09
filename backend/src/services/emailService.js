@@ -81,10 +81,14 @@ export async function sendInvitationEmail(email, jobTitle, tempPassword = null, 
   }
 
   try {
-    await sendEmail(process.env.GOOGLE_USER, email, subject, emailBody);
-    recordEmailSent();
-    return { success: true };
+    const sent = await sendEmail(process.env.GOOGLE_USER, email, subject, emailBody);
+    if (sent) {
+      recordEmailSent();
+      return { success: true };
+    }
+    return { success: false, reason: "Email send failed" };
   } catch (err) {
+    console.error('Email service error:', err.message || err);
     return { success: false, reason: "Email send error" };
   }
 }
