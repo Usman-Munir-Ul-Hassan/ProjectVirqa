@@ -89,11 +89,10 @@ const addCandidatesToInterview = asyncHandler(async (req, res) => {
       continue;
     }
 
-    await Interview.updateOne({ _id: interview._id }, { $addToSet: { candidates: user._id } });
-    interview.candidates.push(user._id);
-
     const emailResult = await sendInvitationEmail(email, interview.jobTitle, tempPassword, "addition");
     if (emailResult.success) {
+      await Interview.updateOne({ _id: interview._id }, { $addToSet: { candidates: user._id } });
+      interview.candidates.push(user._id);
       successes.push(email);
     } else {
       failures.push({ email, reason: emailResult.reason });
@@ -220,11 +219,13 @@ const createInterview = asyncHandler(async (req, res) => {
       }
 
       const { user, isNew, tempPassword } = result;
-      processedCandidates.push(user._id);
 
       const emailResult = await sendInvitationEmail(email, jobTitle, tempPassword, "invitation");
-      if (!emailResult.success) {
+      if (emailResult.success) {
+        processedCandidates.push(user._id);
+      } else {
         console.error(`Failed to send email to ${email}:`, emailResult.reason);
+        failures.push({ email, reason: emailResult.reason });
       }
     }
   }
