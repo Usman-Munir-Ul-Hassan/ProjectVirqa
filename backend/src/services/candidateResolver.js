@@ -21,19 +21,7 @@ export function isValidGmail(email) {
   return /^[\w.%+-]+@gmail\.com$/i.test(email);
 }
 
-/**
- * Resolve or create a candidate user by email.
- *
- * If the user exists but has never logged in (auto-created from a previous
- * invitation), a fresh temp password is generated and the old one is replaced.
- *
- * @param {string} email         Gmail address.
- * @param {string} fullName      Display name (used only when creating).
- * @param {string} [contact]     Phone/contact info (used only when creating).
- * @param {string} requesterId   The ID of the user making the request (prevents self-add).
- *
- * @returns {Promise<{user: object|null, isNew: boolean, tempPassword: string|null, error: string|null}>}
- */
+  
 export async function resolveOrCreateCandidate(email, fullName, contact = "", requesterId = null) {
   if (!isValidGmail(email)) {
     return { user: null, isNew: false, tempPassword: null, error: "Invalid Gmail address" };
