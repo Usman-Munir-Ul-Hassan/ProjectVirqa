@@ -57,6 +57,17 @@ const LoginHandler = asyncHandler(async (req, res) => {
     if (!isPasswordValid) {
         throw new ApiError(400, "Kindly Enter valid credentials")
     }
+
+    // Check if temp password has expired (24h)
+    if (user.tempPasswordExpiresAt && new Date() > user.tempPasswordExpiresAt) {
+        throw new ApiError(403, "Your temporary password has expired. Please contact the interviewer for a new invitation.")
+    }
+
+    // Track last login
+    user.lastLogin = new Date();
+    user.tempPasswordExpiresAt = null; // Clear expiry after successful login
+    await user.save();
+
     const token = generateToken(user);
     const options = {
         httpOnly: true,

@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema({
     organization:{type:String},
     forgetPasswordOTP:{type:String,default:null},
     forgetPasswordExpiry:{type:Date,default:null},
+    lastLogin: { type: Date, default: null },
+    tempPasswordExpiresAt: { type: Date, default: null },
     // Shared metadata
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
 }, baseOptions);

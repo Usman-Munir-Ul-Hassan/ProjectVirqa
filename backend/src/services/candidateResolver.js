@@ -24,6 +24,9 @@ export function isValidGmail(email) {
 /**
  * Resolve or create a candidate user by email.
  *
+ * If the user exists but has never logged in (auto-created from a previous
+ * invitation), a fresh temp password is generated and the old one is replaced.
+ *
  * @param {string} email         Gmail address.
  * @param {string} fullName      Display name (used only when creating).
  * @param {string} [contact]     Phone/contact info (used only when creating).
@@ -47,6 +50,7 @@ export async function resolveOrCreateCandidate(email, fullName, contact = "", re
   let tempPassword = null;
 
   if (!user) {
+    // Brand new candidate — create with temp password (24h expiry)
     tempPassword = generateTempPassword();
     user = await Candidate.create({
       email,
@@ -55,8 +59,17 @@ export async function resolveOrCreateCandidate(email, fullName, contact = "", re
       role: "candidate",
       password: tempPassword,
       isActive: true,
+      tempPasswordExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
     });
     isNew = true;
+  } else if (!user.lastLogin) {
+    // User was auto-created from a previous invite but never logged in.
+    // Regenerate a fresh temp password so they can access the account.
+    tempPassword = generateTempPassword();
+    user.password = tempPassword;
+    user.tempPasswordExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    await user.save();
+    isNew = true; // Treat as new for email template purposes
   }
 
   return { user, isNew, tempPassword, error: null };
