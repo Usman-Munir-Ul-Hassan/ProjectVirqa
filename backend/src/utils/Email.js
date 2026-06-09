@@ -14,11 +14,14 @@ const createMailOptions = (from,to, subject, htmlContent ) => {
 };
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.GOOGLE_USER,
     pass: process.env.GOOGLE_APP_PASSWORD,
   },
+  family: 4, // Force IPv4 - Render doesn't support IPv6
 });
 // Verify that if the transporter can connect to the mail server
 transporter.verify((error, success) => {
