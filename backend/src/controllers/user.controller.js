@@ -20,7 +20,8 @@ const registerHandler = asyncHandler(async (req, res) => {
     const token = generateToken(newUser);
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: 'none'
     }
     return res.//for getting data on front end about user
         status(200).
@@ -59,7 +60,8 @@ const LoginHandler = asyncHandler(async (req, res) => {
     const token = generateToken(user);
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: 'none'
     }
     return res.//for getting data on front end about user
         status(200).
@@ -85,7 +87,8 @@ const LoginHandler = asyncHandler(async (req, res) => {
 const logoutHandler = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: 'none'
     }
     return res.status(200).clearCookie("token", options).json(new ApiResponse(200, {}, "Successfully LoggedOut!"))
 })
