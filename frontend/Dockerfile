@@ -3,14 +3,6 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# Accept build-time env vars for Vite
-ARG VITE_API_URL
-ARG VITE_SOCKET_URL
-ARG VITE_GROQ_API_KEY
-ENV VITE_API_URL=$VITE_API_URL
-ENV VITE_SOCKET_URL=$VITE_SOCKET_URL
-ENV VITE_GROQ_API_KEY=$VITE_GROQ_API_KEY
-
 COPY package.json package-lock.json ./
 RUN npm ci
 
@@ -29,6 +21,10 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy built files from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# Copy and setup entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/entrypoint.sh"]

@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io as socketIO } from 'socket.io-client';
 import api from '../utils/api.js';
+import { getSocketUrl } from '../utils/runtimeConfig.js';
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:8000';
+const SOCKET_URL = getSocketUrl();
 
 // ─── Format relative time ──────────────────────────────────────────
 const formatTimeAgo = (dateStr) => {

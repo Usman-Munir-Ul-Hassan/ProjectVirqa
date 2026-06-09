@@ -10,8 +10,9 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
+import { getSocketUrl } from "../utils/runtimeConfig.js";
 
-const socket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:8000", { autoConnect: false, withCredentials: true });
+const socket = io(getSocketUrl(), { autoConnect: false, withCredentials: true });
 const completedGreetings = new Set();
 
 /**

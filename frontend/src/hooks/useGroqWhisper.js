@@ -10,8 +10,9 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Groq from "groq-sdk";
+import { getGroqApiKey } from "../utils/runtimeConfig.js";
 
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || "";
+const GROQ_API_KEY = getGroqApiKey();
 const groq = new Groq({ apiKey: GROQ_API_KEY, dangerouslyAllowBrowser: true });
 
 /**
